@@ -38,13 +38,7 @@ class ArticlesPage extends HookWidget {
                     separatorBuilder: (BuildContext context, int index) =>
                         AppDivider(),
                     itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                                AppRoutes.articleDetails,
-                                arguments: articles[index]);
-                          },
-                          child: ArticleItem(articles[index]));
+                      return ArticleItem(articles[index]);
                     },
                   ),
           );
@@ -59,122 +53,129 @@ class ArticleItem extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final favoriteIds = useProvider(sharedProvider.homeProvider).favoriteIds;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CircleImageFromNetwork(
-                article.author.avatar,
-                "placeholder",
-                "errorHolder",
-                size: 18,
-              ),
-              SizedBox(
-                width: 6,
-              ),
-              AppFontsStyle.getAppTextView(article.author.name, size: 12)
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppFontsStyle.getAppTextViewBold(article.title),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      AppFontsStyle.getAppTextView(article.date),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      Icon(
-                        Icons.circle,
-                        size: 4,
-                        color: Pallet.colorBawoGrey,
-                      ),
-                      SizedBox(
-                        width: 4,
-                      ),
-                      AppFontsStyle.getAppTextView(article.minRead),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                ],
-              ),
-              Container(
-                  margin: EdgeInsets.only(left: 16),
-                  width: 75,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(3),
-                        topRight: Radius.circular(3)),
-                    child: CachedNetworkImage(
-                      imageUrl: article.imageUrl,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Image.asset(
-                        "assets/images/dummy_image.png",
-                        fit: BoxFit.fill,
-                      ),
-                      errorWidget: (context, url, error) => Image.asset(
-                        "assets/images/dummy_image.png",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  )),
-            ],
-          ),
-          SizedBox(
-            height: 8,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            AppFontsStyle.getAppTextView("Based on your reading history",
-                size: 12),
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).pushNamed(
+            AppRoutes.articleDetails,
+            arguments: article);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: Column(
+          children: [
             Row(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    context
-                        .read(sharedProvider.homeProvider)
-                        .updateFavorite(article);
-                  },
-                  child: Icon(
-                    favoriteIds.contains(article.id)
-                        ? Icons.bookmarks
-                        : Icons.bookmarks_outlined,
-                    color: Pallet.colorBawoGrey,
-                    size: 14,
-                  ),
+                CircleImageFromNetwork(
+                  article.author.avatar,
+                  "placeholder",
+                  "errorHolder",
+                  size: 18,
                 ),
                 SizedBox(
-                  width: 16,
+                  width: 6,
                 ),
-                SvgPicture.asset(
-                  "assets/images/options_menu.svg",
-                  height: 12,
-                ),
+                AppFontsStyle.getAppTextView(article.author.name, size: 12)
               ],
-            )
-          ]),
-        ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppFontsStyle.getAppTextViewBold(article.title),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        AppFontsStyle.getAppTextView(article.date),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Icon(
+                          Icons.circle,
+                          size: 4,
+                          color: Pallet.colorBawoGrey,
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        AppFontsStyle.getAppTextView(article.minRead),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                  ],
+                ),
+                Container(
+                    margin: EdgeInsets.only(left: 16),
+                    width: 75,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(3),
+                          topRight: Radius.circular(3)),
+                      child: CachedNetworkImage(
+                        imageUrl: article.imageUrl,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        placeholder: (context, url) => Image.asset(
+                          "assets/images/dummy_image.png",
+                          fit: BoxFit.fill,
+                        ),
+                        errorWidget: (context, url, error) => Image.asset(
+                          "assets/images/dummy_image.png",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    )),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              AppFontsStyle.getAppTextView("Based on your reading history",
+                  size: 12),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      context
+                          .read(sharedProvider.homeProvider)
+                          .updateFavorite(article);
+                    },
+                    child: Icon(
+                      favoriteIds.contains(article.id)
+                          ? Icons.bookmarks
+                          : Icons.bookmarks_outlined,
+                      color: Pallet.colorBawoGrey,
+                      size: 14,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 16,
+                  ),
+                  SvgPicture.asset(
+                    "assets/images/options_menu.svg",
+                    height: 12,
+                  ),
+                ],
+              )
+            ]),
+          ],
+        ),
       ),
     );
   }

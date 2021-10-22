@@ -1,12 +1,11 @@
 import 'package:bawo/data/core/view_state.dart';
 import 'package:bawo/data/remote/models/article/articles.dart';
-
 import 'package:bawo/data/repository/user_repository.dart';
 import 'package:bawo/domain/viewmodel/base/base_view_model.dart';
 import 'package:bawo/utils/color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bawo/utils/string_extension.dart';
 import '../../main.dart';
 
 class EventViewModel extends BaseViewModel {
@@ -38,7 +37,8 @@ class EventViewModel extends BaseViewModel {
       setViewState(ViewState.Loading);
       await Future.delayed(Duration(seconds: 5));
       final author = Author("Name", "avatar");
-      final items = List<Article>.generate(100, (i) => Article(i, "Title", "date", "minRead", "imageArticle", false, markdownData, author));
+      var items = List<Article>.generate(20, (i) => Article(i, "$i Title", "date", "minRead", "imageArticle", false, markdownData, author, "2021-10-${i}T09:56:42.000Z".formatStringDateType3(), DateTime.now()));
+      items.sort((a,b) => b.createdAt.compareTo(a.createdAt));
       recentArticles = items;
       setViewState(ViewState.Success);
     } catch (error) {
@@ -53,6 +53,7 @@ class EventViewModel extends BaseViewModel {
       favoriteArticles.forEach((element) {
         favoriteIds.add(element.id);
       });
+      favoriteArticles.sort((a,b) => b.addedAt.compareTo(a.addedAt));
       notifyListeners();
     } catch (error) {
       setError(error.toString());
@@ -63,6 +64,7 @@ class EventViewModel extends BaseViewModel {
   void updateFavorite(Article article) {
       if(favoriteIds.contains(article.id)){
         favoriteIds.remove(article.id);
+        article.addedAt = DateTime.now();
         userRepository.removeFavoriteArticle(article);
         Fluttertoast.showToast(
             msg: "Removed from Favorites",
@@ -76,6 +78,7 @@ class EventViewModel extends BaseViewModel {
         getFavoriteArticles();
       } else {
         favoriteIds.add(article.id);
+        article.addedAt = DateTime.now();
         userRepository.saveFavoriteArticle(article);
         Fluttertoast.showToast(
             msg: "Added to Favorites",

@@ -20,9 +20,13 @@ class Article {
   String description;
   @HiveField(7)
   Author author;
+  @HiveField(8)
+  DateTime createdAt;
+  @HiveField(9)
+  DateTime addedAt;
 
   Article(this.id, this.title, this.date, this.minRead, this.imageUrl,
-      this.isBookmarked, this.description, this.author);
+      this.isBookmarked, this.description, this.author, this.createdAt, this.addedAt);
 }
 
 @HiveType(typeId: 2)
