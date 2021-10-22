@@ -8,6 +8,10 @@ const config = {
     database: env.DB_NAME || 'JWz3NiAPma',
   },
   listPerPage: env.LIST_PER_PAGE || 50,
+  notification: {
+    apiKey: "22995461-4fd0-44ae-b4c1-b72d4852cbc1",
+    restKey: "OTc4M2RkMDctNjdkYi00ODhlLWJiN2YtMDEwNTA0OWZlZjFj",
+  },
 };
 
 
