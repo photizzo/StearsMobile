@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bawo/data/cache/user.cache.dart';
 import 'package:bawo/data/remote/user_remote/user_remote.dart';
+import 'package:bawo/domain/viewmodel/article_view_model.dart';
 import 'package:bawo/ui/routes/routes.dart';
 import 'package:bawo/ui/splash/splash.dart';
 import 'package:dio/dio.dart';
@@ -18,7 +19,6 @@ import 'data/remote/models/article/articles.dart';
 import 'data/remote/user_remote/user_remote_impl.dart';
 import 'data/repository/user_repository.dart';
 import 'data/repository/user_repository_impl.dart';
-import 'domain/viewmodel/event_view_model.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 Future<void> main() async {
@@ -82,7 +82,7 @@ void setupDio() {
 }
 
 void registerViewModels() {
-  locator.registerFactory(() => EventViewModel());
+  locator.registerFactory(() => ArticleViewModel());
 }
 
 void setupNotification() {

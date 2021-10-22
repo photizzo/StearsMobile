@@ -1,6 +1,8 @@
 import 'dart:convert';
+
+import 'package:bawo/data/remote/models/article/articles.dart';
 abstract class UserRemote{
-  // Future<List<EventData>?> getEventsNearMe(String lng, String lat, TokenMetaData tokenMetaData);
+  Future<List<Article>?> getRecentArticles();
 }
 
 void handleError(dynamic error) {

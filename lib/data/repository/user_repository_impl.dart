@@ -15,9 +15,9 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<List<Article>> getRecentArticles() {
-    // TODO: implement getRecentArticles
-    throw UnimplementedError();
+  Future<List<Article>?> getRecentArticles() {
+    final list = userRemote.getRecentArticles();
+    return list;
   }
 
   @override

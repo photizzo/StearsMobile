@@ -1,5 +1,5 @@
 import 'package:bawo/data/remote/models/article/articles.dart';
-import 'package:bawo/domain/viewmodel/event_view_model.dart';
+import 'package:bawo/domain/viewmodel/article_view_model.dart';
 import 'package:bawo/utils/app_fonts.dart';
 import 'package:bawo/utils/color.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,9 +10,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../main.dart';
 import 'articles_page.dart';
 
-final homeProvider = ChangeNotifierProvider.autoDispose<EventViewModel>((ref) {
+final homeProvider = ChangeNotifierProvider.autoDispose<ArticleViewModel>((ref) {
   ref.onDispose(() {});
-  final viewmodel = locator.get<EventViewModel>();
+  final viewmodel = locator.get<ArticleViewModel>();
   viewmodel.getRecentArticles();
   viewmodel.getFavoriteArticles();
   return viewmodel;
