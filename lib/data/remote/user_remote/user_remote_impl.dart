@@ -4,6 +4,7 @@ import 'package:bawo/data/remote/models/article/articles.dart';
 import 'package:bawo/data/remote/user_remote/user_remote.dart';
 import 'package:dio/dio.dart';
 import 'package:bawo/utils/string_extension.dart';
+import 'package:intl/intl.dart';
 
 /**
  * This calls implements the UserRemote logic
@@ -21,10 +22,12 @@ class UserRemoteImpl extends UserRemote {
       );
       final responseData = ArticleNetworkResponse.fromJson(response.data);
       final list = responseData.data?.map((element) {
+        DateTime day = element.createdAt?.formatStringDateType3() ?? DateTime.now();
+        final date = DateFormat('dd MMM').format(day);
         return Article(
             element?.id ?? 0,
             element.title ?? "",
-            "",
+            date,
             "${element?.minRead} Min Read",
             element.imageUrl ?? "",
             false,

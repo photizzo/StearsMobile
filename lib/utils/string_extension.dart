@@ -56,7 +56,7 @@ extension CapExtension on String {
     var inputDate = dateFormat.parse(this); // <-- Incoming date
     return inputDate;
   }
-  DateTime formatStringDateType3(){
+    DateTime formatStringDateType3(){
     final dateFormat = new DateFormat('yyyy-MM-ddThh:mm');
     var inputDate = dateFormat.parse(this); // <-- Incoming date
     return inputDate;
