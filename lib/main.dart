@@ -19,6 +19,7 @@ import 'data/remote/user_remote/user_remote_impl.dart';
 import 'data/repository/user_repository.dart';
 import 'data/repository/user_repository_impl.dart';
 import 'domain/viewmodel/event_view_model.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -60,6 +61,7 @@ void setupLocator() {
   locator.registerFactory<UserRepository>(
           () => UserRepositoryImpl(locator<UserRemote>(), locator<UserCache>()));
   registerViewModels();
+  setupNotification();
 }
 
 void setupDio() {
@@ -81,6 +83,18 @@ void setupDio() {
 
 void registerViewModels() {
   locator.registerFactory(() => EventViewModel());
+}
+
+void setupNotification() {
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+  OneSignal.shared.setAppId("22995461-4fd0-44ae-b4c1-b72d4852cbc1");
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+    print("Accepted permission: $accepted");
+  });
 }
 
 Future<void> setupDb() async {
